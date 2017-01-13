@@ -1,0 +1,33 @@
+service: the-fans-api
+provider:
+  name: aws
+  runtime: nodejs4.3
+  cfLogs: true
+package:
+  individually: true
+  exclude:
+    - node_modules/**
+    - .idea/**
+    - .git/**
+    - events/**
+    - coverage/**
+    - bin/**
+    - test/**
+plugins:
+  - serverless-aws-documentation
+  - serverless-mocha-plugin
+  - serverless-offline
+  - serverless-plugin-aws-alerts
+  - serverless-crypt
+  - serverless-plugin-browserify
+  - serverless-plugin-cloudwatch-sumologic
+  - serverless-plugin-diff
+  - serverless-plugin-include-dependencies
+  - serverless-plugin-optimize
+functions:
+  userPut:
+    handler: src/user/put.index
+  userGet:
+    handler: src/user/get.index
+  hello:
+    handler: handler.hello
