@@ -3,7 +3,7 @@ node_js:
   - '4.3'
 
 before_install:
-  - mysql -u root -e 'CREATE DATABASE the_fans;'
+  - mysql -u root -e 'CREATE DATABASE the_fans_test;'
   - npm i -g serverless
   - npm install serverless-mocha-plugin
 

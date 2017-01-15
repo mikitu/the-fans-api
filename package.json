@@ -4,7 +4,11 @@
   "description": "The Fans API",
   "main": "handler.js",
   "scripts": {
-    "test": "istanbul cover ./node_modules/mocha/bin/_mocha -- -u exports -R spec"
+    "test": "istanbul cover ./node_modules/mocha/bin/_mocha -- -u exports -R spec",
+    "migrate-test": "./node_modules/sequelize-cli/bin/sequelize db:migrate --config ./config/sequelize.js --env test",
+    "migrate-test:undo": "./node_modules/sequelize-cli/bin/sequelize db:migrate:undo --config ./config/sequelize.js --env test",
+    "migrate": "./node_modules/sequelize-cli/bin/sequelize db:migrate --config ./config/sequelize.js",
+    "migrate:undo": "./node_modules/sequelize-cli/bin/sequelize db:migrate:undo --config ./config/sequelize.js"
   },
   "repository": {
     "type": "git",

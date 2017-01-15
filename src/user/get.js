@@ -1,22 +1,20 @@
 'use strict';
-//TODO read db details from ENV
 //TODO read KMS
 const mysql = require('mysql');
-
-let db = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '',
-  database : 'the_fans',
+const dbConfig = require('../../config/db');
+const db = mysql.createConnection({
+  host     : dbConfig.host,
+  user     : dbConfig.user,
+  password : dbConfig.password,
+  database : dbConfig.database
 });
-
 module.exports.index = (event, context, callback) => {
-  let checkPathParamRequest = validatePathParameters(event);
+  const checkPathParamRequest = validatePathParameters(event);
   if(checkPathParamRequest) {
     return callback(null, checkPathParamRequest);
   }
 
-  let checkAuthorizationRequest = validateAuthorizationRequest(event);
+  const checkAuthorizationRequest = validateAuthorizationRequest(event);
   if(checkAuthorizationRequest) {
     return callback(null, checkAuthorizationRequest);
   }
@@ -24,18 +22,18 @@ module.exports.index = (event, context, callback) => {
   const userId = event.pathParameters.id;
   const authUserId = event.requestContext.authorizer.user_id;
 
-  let checkAuthorizatio = validateAuthorization(userId, authUserId);
+  const checkAuthorizatio = validateAuthorization(userId, authUserId);
   if(checkAuthorizatio) {
     return callback(null, checkAuthorizatio);
   }
 
-  let requestedFields = getRequestedFields(event);
-  let checkRequestedFields = validateRequestedFields(requestedFields);
+  const requestedFields = getRequestedFields(event);
+  const checkRequestedFields = validateRequestedFields(requestedFields);
   if(checkRequestedFields) {
     return callback(null, checkRequestedFields);
   }
 
-    let query = buildQuery(userId, getFields(requestedFields));
+    const query = buildQuery(userId, getFields(requestedFields));
 
     /* check if the user exists */
     db.query(query, function(err, rows) {

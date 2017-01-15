@@ -1,12 +1,22 @@
 'use strict';
+process.env['THE_FANS_DB_DATABASE'] = 'the_fans_test';
 
 const mod = require('../src/user/get.js');
 const mochaPlugin = require('serverless-mocha-plugin');
 
+const mysql = require('mysql');
+const dbConfig = require('../config/db');
+const db = mysql.createConnection({
+  host     : dbConfig.host,
+  user     : dbConfig.user,
+  password : dbConfig.password,
+  database : dbConfig.database
+});
 
 const lambdaWrapper = mochaPlugin.lambdaWrapper;
 const expect = mochaPlugin.chai.expect;
 const wrapped = lambdaWrapper.wrap(mod, { handler: 'index' });
+
 const user = {
   id: 1,
   fb_id: 1,
@@ -20,32 +30,13 @@ const user = {
   created_at: new Date().toLocaleString()
 }
 
+
 describe('userGet', () => {
   before((done) => {
-    const mysql = require('mysql');
-
-    let db = mysql.createConnection({
-      host     : 'localhost',
-      user     : 'root',
-      password : '',
-      database : 'the_fans',
-    });
-
-    let query = 'INSERT INTO `user` VALUES (' + user.id + ', ' +
-      '' + user.fb_id + ',' +
-      ' "' + user.name + '",' +
-      ' "' + user.first_name + '",' +
-      ' "' + user.last_name + '",' +
-      ' "' + user.gender + '",' +
-      ' "' + user.picture + '",' +
-      ' "' + user.timezone + '", ' +
-      ' "ACTIVE", ' +
-      ' NOW(), ' +
-      'NOW())';
-    console.log(query);
-    db.query(query, function(err, response){
-      done();
-    })
+    done();
+  });
+  after((done) => {
+    done();
   });
 
   it('Path Parameter Invalid - No pathParameters', () => {
@@ -205,7 +196,7 @@ describe('userGet', () => {
     }
     return wrapped.run(event).then((response) => {
       expect(response.statusCode).to.eql(200);
-      let responseUser = JSON.parse(response.body);
+      const responseUser = JSON.parse(response.body);
       expect(responseUser.id).to.eql(user.id);
       expect(responseUser.fb_id).to.eql(user.fb_id);
       expect(responseUser.name).to.eql(user.name);
@@ -233,7 +224,7 @@ describe('userGet', () => {
     }
     return wrapped.run(event).then((response) => {
       expect(response.statusCode).to.eql(200);
-      //TODO test the message response
+      expect(response.body).to.eql({});
     });
   });
 });
