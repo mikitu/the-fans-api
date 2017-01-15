@@ -8,7 +8,7 @@ before_install:
   - npm install serverless-mocha-plugin
 
 before_script:
-  - ./node_modules/sequelize-cli/bin/sequelize db:migrate
+  - npm run migrate-test
 
 services:
   - mysql
