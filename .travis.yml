@@ -3,7 +3,7 @@ node_js:
   - '4.3'
 
 before_install:
-  - mysql -u root -e 'CREATE DATABASE the-fans;'
+  - mysql -u root -e 'CREATE DATABASE the_fans;'
   - npm i -g serverless
 
 before_script:
