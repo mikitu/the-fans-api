@@ -33,10 +33,25 @@ const user = {
 
 describe('userGet', () => {
   before((done) => {
-    done();
+    let query = 'INSERT INTO `user` VALUES (' + user.id + ', ' +
+      '' + user.fb_id + ',' +
+      ' "' + user.name + '",' +
+      ' "' + user.first_name + '",' +
+      ' "' + user.last_name + '",' +
+      ' "' + user.gender + '",' +
+      ' "' + user.picture + '",' +
+      ' "' + user.timezone + '", ' +
+      ' "ACTIVE", ' +
+      ' NOW(), ' +
+      'NOW())';
+    db.query(query, function(err, response){
+      done();
+    })
   });
   after((done) => {
-    done();
+    db.query("DELETE FROM user where id = 1", function(err, response){
+      done();
+    })
   });
 
   it('Path Parameter Invalid - No pathParameters', () => {
