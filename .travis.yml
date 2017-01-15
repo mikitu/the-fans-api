@@ -3,8 +3,14 @@ node_js:
   - '4.3'
 
 before_install:
+  - mysql -e 'CREATE DATABASE the-fans;'
   - npm i -g serverless
 
+before_script:
+  - ./node_modules/sequelize-cli/bin/sequelize db:migrate
+
+services:
+  - mysql
 
 
-#script: ./deploy.sh
+#script: sls deploy
