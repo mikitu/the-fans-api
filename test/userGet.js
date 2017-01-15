@@ -28,7 +28,7 @@ describe('userGet', () => {
       host     : 'localhost',
       user     : 'root',
       password : '',
-      database : 'the-fans',
+      database : 'the_fans',
     });
 
     let query = 'INSERT INTO `user` VALUES (' + user.id + ', ' +
