@@ -5,6 +5,7 @@ node_js:
 before_install:
   - mysql -u root -e 'CREATE DATABASE the_fans;'
   - npm i -g serverless
+  - npm install serverless-mocha-plugin
 
 before_script:
   - ./node_modules/sequelize-cli/bin/sequelize db:migrate
