@@ -6,8 +6,8 @@ const mysql = require('mysql');
 let db = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : 'pass',
-  database : 'the-fans',
+  password : '',
+  database : 'the_fans',
 });
 
 module.exports.index = (event, context, callback) => {
