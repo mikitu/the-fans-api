@@ -4,7 +4,7 @@
   "description": "The Fans API",
   "main": "handler.js",
   "scripts": {
-    "test": "istanbul cover ./node_modules/mocha/bin/_mocha -- -u exports -R spec"
+    "test": "istanbul cover"
   },
   "repository": {
     "type": "git",
