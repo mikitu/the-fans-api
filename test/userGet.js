@@ -27,43 +27,25 @@ describe('userGet', () => {
     let db = mysql.createConnection({
       host     : 'localhost',
       user     : 'root',
-      password : 'pass',
+      password : '',
       database : 'the-fans',
     });
 
-    db.query('DROP TABLE IF EXISTS `user`', function(err){
-      if(!err) {
-        let query = 'CREATE TABLE `user` (`id` INT(6) NOT NULL,' +
-          ' `fb_id` BIGINT NOT NULL,' +
-          ' `name` VARCHAR(255) NOT NULL,' +
-          ' `first_name` VARCHAR(255) NOT NULL,' +
-          ' `last_name` VARCHAR(255) NOT NULL,' +
-          ' `gender` VARCHAR(10) NOT NULL,' +
-          ' `picture` VARCHAR(1024) NOT NULL,' +
-          ' `timezone` TINYINT(3) NOT NULL,' +
-          ' `is_active` TINYINT(3) NOT NULL,' +
-          ' `created_at` DATETIME NOT NULL' +
-          ') ENGINE=MEMORY;';
-        db.query(query, function(err) {
-          if(!err) {
-            let query = 'INSERT INTO `user` VALUES (' + user.id + ', ' +
-              '' + user.fb_id + ',' +
-              ' "' + user.name + '",' +
-              ' "' + user.first_name + '",' +
-              ' "' + user.last_name + '",' +
-              ' "' + user.gender + '",' +
-              ' "' + user.picture + '",' +
-              ' "' + user.timezone + '", ' +
-              ' "1", ' +
-              'NOW())';
-            db.query(query, function(err, response){
-              done();
-            })
-          }
-        })
-
-      }
-    });
+    let query = 'INSERT INTO `user` VALUES (' + user.id + ', ' +
+      '' + user.fb_id + ',' +
+      ' "' + user.name + '",' +
+      ' "' + user.first_name + '",' +
+      ' "' + user.last_name + '",' +
+      ' "' + user.gender + '",' +
+      ' "' + user.picture + '",' +
+      ' "' + user.timezone + '", ' +
+      ' "ACTIVE", ' +
+      ' NOW(), ' +
+      'NOW())';
+    console.log(query);
+    db.query(query, function(err, response){
+      done();
+    })
   });
 
   it('Path Parameter Invalid - No pathParameters', () => {
