@@ -38,7 +38,7 @@ describe('userGet', () => {
       ' "' + user.name + '",' +
       ' "' + user.first_name + '",' +
       ' "' + user.last_name + '",' +
-      ' "' + user.gender + '",' +
+      '' + user.gender + ',' +
       ' "' + user.picture + '",' +
       ' "' + user.timezone + '", ' +
       ' "ACTIVE", ' +
