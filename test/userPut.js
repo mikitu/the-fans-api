@@ -23,7 +23,7 @@ const user = {
   name:'Test User',
   first_name: 'First Name',
   last_name: 'Last Name',
-  gender: 'Male',
+  gender: 1,
   picture: 'Picture',
   timezone: 1,
   is_active: 1,
@@ -34,7 +34,7 @@ const userUpdated = {
   name:'Update Name',
   first_name: 'Update First Name',
   last_name: 'Update Last Name',
-  gender: 'Female',
+  gender: 2,
   picture: 'Update Picture',
   timezone: 2,
 }
@@ -217,6 +217,176 @@ describe('userPut', () => {
     });
   });
 
+  it('Invalid value for gender', () => {
+    const event = {
+      pathParameters:{
+        id: 1
+      },
+      requestContext:{
+        authorizer: {
+          user_id: 1
+        }
+      },
+      body: {
+        gender: 0
+      }
+    }
+    return wrapped.run(event).then((response) => {
+      expect(response.statusCode).to.eql(400);
+      //TODO test the message response
+    });
+  });
+
+  it('Valid value for Gender - 1', () => {
+    const event = {
+      pathParameters:{
+        id: 1
+      },
+      requestContext:{
+        authorizer: {
+          user_id: 1
+        }
+      },
+      body: {
+        gender: 1
+      }
+    }
+    return wrapped.run(event).then((response) => {
+      expect(response.statusCode).to.eql(200);
+      const responseUser = JSON.parse(response.body);
+      expect(responseUser.success).to.eql(true);
+      db.query("SELECT * FROM user WHERE id = 1", function(err, rows) {
+        expect(err).to.eql(null);
+        expect(rows[0].gender).to.eql(1);
+      })
+    });
+  });
+
+  it('Valid value for Gender - 2', () => {
+    const event = {
+      pathParameters:{
+        id: 1
+      },
+      requestContext:{
+        authorizer: {
+          user_id: 1
+        }
+      },
+      body: {
+        gender: 2
+      }
+    }
+    return wrapped.run(event).then((response) => {
+      expect(response.statusCode).to.eql(200);
+      const responseUser = JSON.parse(response.body);
+      expect(responseUser.success).to.eql(true);
+      db.query("SELECT * FROM user WHERE id = 1", function(err, rows) {
+        expect(err).to.eql(null);
+        expect(rows[0].gender).to.eql(2);
+      })
+    });
+  });
+
+  it('Valid value for Gender - male', () => {
+    const event = {
+      pathParameters:{
+        id: 1
+      },
+      requestContext:{
+        authorizer: {
+          user_id: 1
+        }
+      },
+      body: {
+        gender: 'male'
+      }
+    }
+    return wrapped.run(event).then((response) => {
+      expect(response.statusCode).to.eql(200);
+      const responseUser = JSON.parse(response.body);
+      expect(responseUser.success).to.eql(true);
+      db.query("SELECT * FROM user WHERE id = 1", function(err, rows) {
+        expect(err).to.eql(null);
+        expect(rows[0].gender).to.eql(1);
+      })
+    });
+  });
+
+  it('Valid value for Gender - female', () => {
+    const event = {
+      pathParameters:{
+        id: 1
+      },
+      requestContext:{
+        authorizer: {
+          user_id: 1
+        }
+      },
+      body: {
+        gender: 'female'
+      }
+    }
+    return wrapped.run(event).then((response) => {
+      expect(response.statusCode).to.eql(200);
+      const responseUser = JSON.parse(response.body);
+      expect(responseUser.success).to.eql(true);
+      db.query("SELECT * FROM user WHERE id = 1", function(err, rows) {
+        expect(err).to.eql(null);
+        expect(rows[0].gender).to.eql(2);
+      })
+    });
+  });
+
+  it('Valid value for Gender - male upperchase', () => {
+    const event = {
+      pathParameters:{
+        id: 1
+      },
+      requestContext:{
+        authorizer: {
+          user_id: 1
+        }
+      },
+      body: {
+        gender: 'MALE'
+      }
+    }
+    return wrapped.run(event).then((response) => {
+      expect(response.statusCode).to.eql(200);
+      const responseUser = JSON.parse(response.body);
+      expect(responseUser.success).to.eql(true);
+      db.query("SELECT * FROM user WHERE id = 1", function(err, rows) {
+        expect(err).to.eql(null);
+        expect(rows[0].gender).to.eql(1);
+      })
+    });
+  });
+
+  it('Valid value for Gender - female uppercase', () => {
+    const event = {
+      pathParameters:{
+        id: 1
+      },
+      requestContext:{
+        authorizer: {
+          user_id: 1
+        }
+      },
+      body: {
+        gender: 'FEMALE'
+      }
+    }
+    return wrapped.run(event).then((response) => {
+      expect(response.statusCode).to.eql(200);
+      const responseUser = JSON.parse(response.body);
+      expect(responseUser.success).to.eql(true);
+      db.query("SELECT * FROM user WHERE id = 1", function(err, rows) {
+        expect(err).to.eql(null);
+        expect(rows[0].gender).to.eql(2);
+      })
+    });
+  });
+
 
   it('Valid fields to update', () => {
     const event = {
@@ -252,4 +422,5 @@ describe('userPut', () => {
       })
     });
   });
+
 });

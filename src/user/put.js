@@ -34,7 +34,12 @@ module.exports.index = (event, context, callback) => {
     return callback(null, errBodyFields);
   }
 
-  const query = buildQuery(userId, event.body);
+  const [err, putData] = getAttributeValues(event.body);
+  if(err) {
+    return callback(null, err);
+  }
+
+  const query = buildQuery(userId, putData);
   db.query(query, function(err, result) {
     /* istanbul ignore if */
     if (err) {
@@ -61,7 +66,6 @@ module.exports.index = (event, context, callback) => {
 
 
 };
-
 
 function validatePathParameters(event) {
   if (typeof event.pathParameters === 'undefined' || typeof event.pathParameters.id === 'undefined') {
@@ -160,11 +164,73 @@ function validateBodyFields(bodyFields) {
   }
 }
 
-function buildQuery(user_id, data) {
+function getAttributeValues(data) {
   let update = [];
+  let err = null;
   Object.keys(data).forEach(function(key) {
+    key.toLowerCase();
     let val = typeof data[key] === 'string' ? data[key].trim() : data[key];
+    val = transformData(key, val);
+    let errValidAttributeValue = validateFieldValues(key, val);
+    if(errValidAttributeValue) {
+      err =  [errValidAttributeValue, null]
+      return;
+    }
     update.push(key + ' = ' + mysql.escape(val));
   });
-  return 'UPDATE `user` SET ' + update.join(', ') + ' WHERE id = ' + mysql.escape(user_id) + ' LIMIT 1';
+  if(err) {
+    return err;
+  }
+  return [null, update];
+}
+
+
+function buildQuery(user_id, data) {
+  return 'UPDATE `user` SET ' + data.join(', ') + ' WHERE id = ' + mysql.escape(user_id) + ' LIMIT 1';
+}
+
+
+function transformData(attribute, value) {
+  let val = value;
+  switch(attribute) {
+    case 'gender' :
+      if (typeof value === 'string') {
+        value = value.toLowerCase();
+        if (value === 'male') {
+          val = 1;
+        }
+        if (value === 'female') {
+          val = 2;
+        }
+      }
+      break;
+  }
+  return val;
+}
+
+
+function validateFieldValues(attribute, value) {
+  let err = null;
+  switch(attribute) {
+    case 'gender' :
+      const validGenders = [1,2]
+      if(validGenders.indexOf(value) === -1) {
+        err =  {
+          statusCode: 400,
+          body: JSON.stringify({
+            error: {
+              type: "MethodException",
+              message: "Tried to update attributes (gender) on node type (User) with a value that is not supported (" + value + ")",
+              error_data:{
+                blame_field_specs: "gender",
+                valid_values: "1, 2, male, female"
+              },
+              "code": "X",
+            }
+          })
+        };
+      }
+      break;
+  }
+  return err;
 }

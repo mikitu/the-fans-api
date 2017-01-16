@@ -23,7 +23,7 @@ const user = {
   name:'Test User',
   first_name: 'First Name',
   last_name: 'Last Name',
-  gender: 'Gender',
+  gender: 1,
   picture: 'Picture',
   timezone: 1,
   is_active: 1,

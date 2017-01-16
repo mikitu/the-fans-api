@@ -29,8 +29,8 @@ module.exports = {
           allowNull: false,
         },
         gender: {
-          type: Sequelize.STRING(10),
-          allowNull: false,
+          type: 'TINYINT UNSIGNED',
+          allowNull: true,
         },
         picture: {
           type: Sequelize.STRING(1024),
