@@ -33,39 +33,39 @@ module.exports.index = (event, context, callback) => {
     return callback(null, checkRequestedFields);
   }
 
-    const query = buildQuery(userId, getFields(requestedFields));
+  const query = buildQuery(userId, getFields(requestedFields));
 
-    /* check if the user exists */
-    db.query(query, function(err, rows) {
-      /* istanbul ignore if */
-      if (err) {
-        let error =  {
-          statusCode: 500,
-          body: JSON.stringify({
-            error: {
-              "type": "MethodException",
-              "message": "Internal Server Error",
-              "code": "X",
-            }
-          })
-        }
-        return callback(null, error);
+  /* check if the user exists */
+  db.query(query, function(err, rows) {
+    /* istanbul ignore if */
+    if (err) {
+      let error =  {
+        statusCode: 500,
+        body: JSON.stringify({
+          error: {
+            "type": "MethodException",
+            "message": "Internal Server Error",
+            "code": "X",
+          }
+        })
       }
+      return callback(null, error);
+    }
 
-      if(0 === rows.length) {
-        let response =  {
-          statusCode: 200,
-          body: {}
-        }
-        return callback(null, response);
-      }
-
+    if(0 === rows.length) {
       let response =  {
         statusCode: 200,
-        body: JSON.stringify(rows[0])
+        body: {}
       }
       return callback(null, response);
-    });
+    }
+
+    let response =  {
+      statusCode: 200,
+      body: JSON.stringify(rows[0])
+    }
+    return callback(null, response);
+  });
 };
 
 
@@ -147,7 +147,7 @@ function validateRequestedFields(requestedFields) {
         body: JSON.stringify({
           error: {
             "type": "MethodException",
-            "message": "Tried accessing non existing fields (" + nonValidFields.join(',') + ") on node type (User)",
+            "message": "Tried accessing non existing attributes (" + nonValidFields.join(',') + ") on node type (User)",
             "error_data":{
               "blame_field_specs": nonValidFields
             },
