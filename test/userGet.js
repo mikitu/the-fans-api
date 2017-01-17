@@ -131,47 +131,47 @@ describe('userGet', () => {
       //TODO test the message response
     });
   });
-  //
-  // it('Empty Requested Fields', () => {
-  //   const event = {
-  //     pathParameters:{
-  //       id: 1
-  //     },
-  //     queryStringParameters:{
-  //     },
-  //     requestContext:{
-  //       authorizer: {
-  //         user_id: 1
-  //       }
-  //     }
-  //   }
-  //   return wrapped.run(event).then((response) => {
-  //     expect(response.statusCode).to.eql(200);
-  //     //TODO test the message response
-  //   });
-  // });
-  //
-  //
-  // it('Invalid Requested Fields', () => {
-  //   const event = {
-  //     pathParameters:{
-  //       id: 1
-  //     },
-  //     queryStringParameters:{
-  //       fields: 'test'
-  //     },
-  //     requestContext:{
-  //       authorizer: {
-  //         user_id: 1
-  //       }
-  //     }
-  //   }
-  //   return wrapped.run(event).then((response) => {
-  //     expect(response.statusCode).to.eql(400);
-  //     //TODO test the message response
-  //   });
-  // });
-  //
+
+  it('Empty Requested Fields', () => {
+    const event = {
+      pathParameters:{
+        id: 1
+      },
+      queryStringParameters:{
+      },
+      requestContext:{
+        authorizer: {
+          user_id: 1
+        }
+      }
+    }
+    return wrapped.run(event).then((response) => {
+      expect(response.statusCode).to.eql(200);
+      //TODO test the message response
+    });
+  });
+
+
+  it('Invalid Requested Fields', () => {
+    const event = {
+      pathParameters:{
+        id: 1
+      },
+      queryStringParameters:{
+        fields: 'test'
+      },
+      requestContext:{
+        authorizer: {
+          user_id: 1
+        }
+      }
+    }
+    return wrapped.run(event).then((response) => {
+      expect(response.statusCode).to.eql(400);
+      //TODO test the message response
+    });
+  });
+
   // it('Multiple Fields', () => {
   //   const event = {
   //     pathParameters:{
