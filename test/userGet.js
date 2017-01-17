@@ -62,75 +62,75 @@ describe('userGet', () => {
     });
   });
 
-  // it('Path Parameter Invalid - No ID in pathParameters', () => {
-  //   const event = {
-  //     pathParameters:{}
-  //   }
-  //   return wrapped.run(event).then((response) => {
-  //     expect(response.statusCode).to.eql(400);
-  //     //TODO test the message response
-  //   });
-  // });
-  //
-  // it('Invalid Request Authorization - Missing Request', () => {
-  //   const event = {
-  //     pathParameters:{
-  //       id: 1
-  //     }
-  //   }
-  //   return wrapped.run(event).then((response) => {
-  //     expect(response.statusCode).to.eql(403);
-  //     //TODO test the message response
-  //   });
-  // });
-  //
-  // it('Invalid Request Authorization - Missing Authorization Object', () => {
-  //   const event = {
-  //     pathParameters:{
-  //       id: 1
-  //     },
-  //     requestContext:{
-  //     }
-  //   }
-  //   return wrapped.run(event).then((response) => {
-  //     expect(response.statusCode).to.eql(403);
-  //     //TODO test the message response
-  //   });
-  // });
-  //
-  // it('Invalid Request Authorization - Missing User ID', () => {
-  //   const event = {
-  //     pathParameters:{
-  //       id: 1
-  //     },
-  //     requestContext:{
-  //       authorizer: {
-  //
-  //       }
-  //     }
-  //   }
-  //   return wrapped.run(event).then((response) => {
-  //     expect(response.statusCode).to.eql(403);
-  //     //TODO test the message response
-  //   });
-  // });
-  //
-  // it('Invalid Request Authorization - User ID not the same with Auth User ID', () => {
-  //   const event = {
-  //     pathParameters:{
-  //       id: 1
-  //     },
-  //     requestContext:{
-  //       authorizer: {
-  //         user_id: 2
-  //       }
-  //     }
-  //   }
-  //   return wrapped.run(event).then((response) => {
-  //     expect(response.statusCode).to.eql(403);
-  //     //TODO test the message response
-  //   });
-  // });
+  it('Path Parameter Invalid - No ID in pathParameters', () => {
+    const event = {
+      pathParameters:{}
+    }
+    return wrapped.run(event).then((response) => {
+      expect(response.statusCode).to.eql(400);
+      //TODO test the message response
+    });
+  });
+
+  it('Invalid Request Authorization - Missing Request', () => {
+    const event = {
+      pathParameters:{
+        id: 1
+      }
+    }
+    return wrapped.run(event).then((response) => {
+      expect(response.statusCode).to.eql(403);
+      //TODO test the message response
+    });
+  });
+
+  it('Invalid Request Authorization - Missing Authorization Object', () => {
+    const event = {
+      pathParameters:{
+        id: 1
+      },
+      requestContext:{
+      }
+    }
+    return wrapped.run(event).then((response) => {
+      expect(response.statusCode).to.eql(403);
+      //TODO test the message response
+    });
+  });
+
+  it('Invalid Request Authorization - Missing User ID', () => {
+    const event = {
+      pathParameters:{
+        id: 1
+      },
+      requestContext:{
+        authorizer: {
+
+        }
+      }
+    }
+    return wrapped.run(event).then((response) => {
+      expect(response.statusCode).to.eql(403);
+      //TODO test the message response
+    });
+  });
+
+  it('Invalid Request Authorization - User ID not the same with Auth User ID', () => {
+    const event = {
+      pathParameters:{
+        id: 1
+      },
+      requestContext:{
+        authorizer: {
+          user_id: 2
+        }
+      }
+    }
+    return wrapped.run(event).then((response) => {
+      expect(response.statusCode).to.eql(403);
+      //TODO test the message response
+    });
+  });
   //
   // it('Empty Requested Fields', () => {
   //   const event = {
