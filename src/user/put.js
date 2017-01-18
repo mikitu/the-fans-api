@@ -34,12 +34,12 @@ module.exports.index = (event, context, callback) => {
     return callback(null, errBodyFields);
   }
 
-  const [err, putData] = getAttributeValues(event.body);
-  if(err) {
-    return callback(null, err);
+  let putData = getAttributeValues(event.body);
+  if(putData.err) {
+    return callback(null, putData.err);
   }
 
-  const query = buildQuery(userId, putData);
+  const query = buildQuery(userId, putData.data);
   db.query(query, function(err, result) {
     /* istanbul ignore if */
     if (err) {
@@ -173,15 +173,21 @@ function getAttributeValues(data) {
     val = transformData(key, val);
     let errValidAttributeValue = validateFieldValues(key, val);
     if(errValidAttributeValue) {
-      err =  [errValidAttributeValue, null]
+      err =  errValidAttributeValue
       return;
     }
     update.push(key + ' = ' + mysql.escape(val));
   });
   if(err) {
-    return err;
+    return {
+      err: err,
+      data: null
+    }
   }
-  return [null, update];
+  return {
+    err: null,
+    data: update
+  };
 }
 
 

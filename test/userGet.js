@@ -189,9 +189,6 @@ describe('userGet', () => {
     return wrapped.run(event).then((response) => {
       expect(response.statusCode).to.eql(200);
       let responseUser = JSON.parse(response.body);
-      console.log('responseUser', responseUser);
-      console.log('responseUser.first_name', responseUser.first_name);
-
       expect(responseUser.id).to.eql(user.id);
       expect(responseUser.name).to.eql(user.name);
       expect(responseUser.first_name).to.eql(undefined);
