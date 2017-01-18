@@ -23,6 +23,7 @@ package:
     - bin/**
     - test/**
     - config/**
+    - fixtures/**
 plugins:
   - serverless-aws-documentation
   - serverless-mocha-plugin
