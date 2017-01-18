@@ -172,29 +172,29 @@ describe('userGet', () => {
     });
   });
 
-  // it('Multiple Fields', () => {
-  //   const event = {
-  //     pathParameters:{
-  //       id: 1
-  //     },
-  //     queryStringParameters:{
-  //       fields: 'id,name'
-  //     },
-  //     requestContext:{
-  //       authorizer: {
-  //         user_id: 1
-  //       }
-  //     }
-  //   }
-  //   return wrapped.run(event).then((response) => {
-  //     expect(response.statusCode).to.eql(200);
-  //     let responseUser = JSON.parse(response.body);
-  //     expect(responseUser.id).to.eql(user.id);
-  //     expect(responseUser.name).to.eql(user.name);
-  //     expect(responseUser.first_name).to.eql(undefined);
-  //   });
-  // });
-  //
+  it('Multiple Fields', () => {
+    const event = {
+      pathParameters:{
+        id: 1
+      },
+      queryStringParameters:{
+        fields: 'id,name'
+      },
+      requestContext:{
+        authorizer: {
+          user_id: 1
+        }
+      }
+    }
+    return wrapped.run(event).then((response) => {
+      expect(response.statusCode).to.eql(200);
+      let responseUser = JSON.parse(response.body);
+      expect(responseUser.id).to.eql(user.id);
+      expect(responseUser.name).to.eql(user.name);
+      expect(responseUser.first_name).to.eql(undefined);
+    });
+  });
+
   // it('All fields', () => {
   //   const event = {
   //     pathParameters:{
